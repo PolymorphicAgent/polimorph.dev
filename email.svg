@@ -29,11 +29,11 @@
      inkscape:deskcolor="#505050"
      inkscape:zoom="1.01625"
      inkscape:cx="400.492"
-     inkscape:cy="400"
+     inkscape:cy="400.98401"
      inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
+     inkscape:window-height="1094"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:current-layer="email" />
   <rect
@@ -43,9 +43,9 @@
      width="20"
      height="16"
      rx="2"
-     style="fill:#0a0a1f;fill-opacity:1" />
+     style="fill:#2a2a53;fill-opacity:1" />
   <path
      id="secondary"
      d="M21.25,4.45A2,2,0,0,0,20,4H4a2,2,0,0,0-1.25.45A1,1,0,0,0,2.76,6l8,6.29a2,2,0,0,0,2.48,0l8-6.29a1,1,0,0,0,0-1.56Z"
-     style="fill: rgb(44, 169, 188);" />
+     style="fill:#00ffeb;fill-opacity:1" />
 </svg>
