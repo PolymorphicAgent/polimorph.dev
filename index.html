@@ -167,6 +167,10 @@
       background: rgba(0, 0, 0, 0.05);
       color: #333;
     }
+
+    body.light-mode #arrow-nag {
+        opacity: 1;
+    }
     
     :root {
       --bg-color: #0a0a1f;
@@ -189,6 +193,49 @@
       width: 100%;
       height: 100%;
       z-index: -1;
+    }
+
+    #darkToggle {
+        position: relative;
+    }
+
+    #darkToggle::after {
+        content: "Don't go to the light side... 😒";
+        position: absolute;
+        bottom: 125%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--footer-bg);
+        color: var(--text-color);
+        padding: 0.4rem 0.7rem;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 10;
+    }
+
+    #darkToggle:hover::after {
+        opacity: 1;
+    }
+
+    #arrow-nag {
+        position: absolute;
+        top: 2rem;
+        right: 3rem;
+        font-size: 1rem;
+        color: var(--text-color);
+        animation: bounce 1.5s infinite;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(-10px); }
     }
 
   </style>
@@ -341,6 +388,7 @@ window.addEventListener('resize', () => {
       </a>
     </div>
     <button id="darkToggle" class="button" style="position: fixed; top: 1rem; right: 1rem; z-index: 10;" title="Toggle Theme">🌙</button>
+    <div id="arrow-nag" style="position: fixed; top: 1rem; right: 2rem; z-index: 10;">⬅️ Return to the dark side</div>
   </footer>
 
   <script>
