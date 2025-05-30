@@ -77,12 +77,12 @@
   	width: 100%;
   	color: #fff;
  	text-shadow:
-    		5px 0 red,
-    		-5px 0 cyan,
+    		3px 0 red,
+    		-4px 0 cyan,
     		0 5px blue;
  	mix-blend-mode: screen;
   	pointer-events: none;
-  	animation: glitch-color 5s infinite ease-in-out alternate;
+  	animation: glitch-color 2.5s infinite ease-in-out alternate;
     }
 
     @keyframes glitch-color {
@@ -205,7 +205,7 @@ renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
 // Create particles
-const particlesCount = 3000;
+const particlesCount = 3500;
 const positions = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i += 3) {
   positions[i] = (Math.random() - 0.5) * 150;    // X
