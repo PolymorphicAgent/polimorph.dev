@@ -206,6 +206,7 @@ document.body.appendChild(renderer.domElement);
 
 let originalPositions = [];
 let ripples = [];
+let targetColor = new THREE.Color(0.1, 0.1, 0.1); // dark base tone
 
 // Create particles
 const particlesCount = 3500;
@@ -317,7 +318,7 @@ function repelParticles() {
           const glowColor = new THREE.Color();
           const lightness = 0.3 + Math.random() * 0.2; // random slight glow
           glowColor.setHSL(hue / 360, 0.9, lightness);
-          material.color.lerp(glowColor, 0.2); // blend toward brighter
+          material.color.lerp(glowColor, 0.02); // blend toward brighter
         }
       }
    
@@ -366,9 +367,13 @@ function animate() {
   repelParticles();
 
   // Gradually fade the material color back to base dark hue
-  const baseColor = new THREE.Color();
-  baseColor.setHSL(hue / 360, 0.9, 0.1); // dark version of the current hue
-  material.color.lerp(baseColor, 0.2); // 0.02 is fade speed
+//   const baseColor = new THREE.Color();
+//   baseColor.setHSL(hue / 360, 0.9, 0.1); // dark version of the current hue
+//   material.color.lerp(baseColor, 0.02); // 0.02 is fade speed
+  // Smooth fade back to dark
+  targetColor.setHSL(hue / 360, 0.9, 0.1); // dark but tinted to hue
+  material.color.lerp(targetColor, 0.05); // adjust 0.05 for slower or faster fade
+
 
   renderer.render(scene, camera);
 }
