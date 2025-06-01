@@ -138,6 +138,28 @@
       border-radius: 0 0 20px 20px;
     }
 
+    footer .particle-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color);
+      background: var(--footer-bg);
+      padding: 0.4rem 0.8rem;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    footer input[type="number"] {
+      width: 90px;
+      padding: 0.2rem 0.5rem;
+      background: var(--footer-bg);
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
     a {
       color: #00f5d4;
       text-decoration: none;
@@ -208,41 +230,55 @@ let originalPositions = [];
 let ripples = [];
 let targetColor = new THREE.Color(0.1, 0.1, 0.1); // dark base tone
 
-// Create particles
-const particlesCount = 3500;
-const positions = new Float32Array(particlesCount * 3);
-for (let i = 0; i < particlesCount * 3; i += 3) {
-  const x = (Math.random() - 0.5) * 150;
-  const y = (Math.random() - 0.5) * 150;
-  const z = (Math.random() - 0.5) * 200;
+let geometry;
+let particles;
+let material;
 
-  positions[i] = x;
-  positions[i + 1] = y;
-  positions[i + 2] = z;
+function init() {
+    // Create particles
+    const particlesCount = 3500;
+    const positions = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount * 3; i += 3) {
+        const x = (Math.random() - 0.5) * 150;
+        const y = (Math.random() - 0.5) * 150;
+        const z = (Math.random() - 0.5) * 200;
 
-  originalPositions.push(x, y, z);
-//   positions[i] = (Math.random() - 0.5) * 150;    // X
-//   positions[i + 1] = (Math.random() - 0.5) * 150; // Y
-//   positions[i + 2] = (Math.random() - 0.5) * 200; // Z — gives depth!
+        positions[i] = x;
+        positions[i + 1] = y;
+        positions[i + 2] = z;
+
+        originalPositions.push(x, y, z);
+    }
+
+    geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const textureLoader = new THREE.TextureLoader();
+    const particleTexture = textureLoader.load('https://polimorph.dev/circle.png');
+
+    material = new THREE.PointsMaterial({
+        map: particleTexture,
+        size: 1.5,
+        transparent: true,
+        opacity: 0.12,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
 }
 
-const geometry = new THREE.BufferGeometry();
-geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+init();
 
-const textureLoader = new THREE.TextureLoader();
-const particleTexture = textureLoader.load('https://polimorph.dev/circle.png');
+function regenerateParticles() {
+  scene.remove(particles);
+  geometry.dispose();
+  material.dispose();
 
-const material = new THREE.PointsMaterial({
-  map: particleTexture,
-  size: 1.5,
-  transparent: true,
-  opacity: 0.12,
-  depthWrite: false,
-  blending: THREE.AdditiveBlending
-});
+  init(); // Recreate particles with new count
+}
 
-const particles = new THREE.Points(geometry, material);
-scene.add(particles);
 
 camera.position.z = 50;
 
@@ -351,8 +387,6 @@ function animate() {
   requestAnimationFrame(animate);
 
   hue = (hue + 0.1) % 360;
-  //material.color = new THREE.Color(`hsl(${hue}, 100%, 10%)`);
-  //material.color.setHSL(hue / 360, 0.9, 0.08); // Darker tones only
 
   const scrollDiff = scrollY - lastScrollY;
   lastScrollY = scrollY;
@@ -434,6 +468,11 @@ window.addEventListener('resize', () => {
       </a>
     </div>
     <button id="darkToggle" class="button" style="position: fixed; top: 1rem; right: 1rem; z-index: 10;" title="Toggle Theme">🌙</button>
+    <div class="particle-control">
+      <label for="particleCount">Particles:</label>
+      <input type="number" id="particleCount" min="100" max="10000" value="3500" />
+    </div>
+
   </footer>
 
   <script>
@@ -463,6 +502,14 @@ window.addEventListener('resize', () => {
     // On load
     document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
 
+    //update particle count
+    document.getElementById('particleCount').addEventListener('change', (e) => {
+      const newCount = parseInt(e.target.value, 10);
+      if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
+        particlesCount = newCount;
+        regenerateParticles();
+      }
+    });
   </script>
 </body>
 </html>
