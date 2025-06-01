@@ -204,13 +204,24 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 document.body.appendChild(renderer.domElement);
 
+let originalPositions = [];
+
 // Create particles
 const particlesCount = 3500;
 const positions = new Float32Array(particlesCount * 3);
 for (let i = 0; i < particlesCount * 3; i += 3) {
-  positions[i] = (Math.random() - 0.5) * 150;    // X
-  positions[i + 1] = (Math.random() - 0.5) * 150; // Y
-  positions[i + 2] = (Math.random() - 0.5) * 200; // Z — gives depth!
+  const x = (Math.random() - 0.5) * 150;
+  const y = (Math.random() - 0.5) * 150;
+  const z = (Math.random() - 0.5) * 200;
+
+  positions[i] = x;
+  positions[i + 1] = y;
+  positions[i + 2] = z;
+
+  originalPositions.push(x, y, z);
+//   positions[i] = (Math.random() - 0.5) * 150;    // X
+//   positions[i + 1] = (Math.random() - 0.5) * 150; // Y
+//   positions[i + 2] = (Math.random() - 0.5) * 200; // Z — gives depth!
 }
 
 const geometry = new THREE.BufferGeometry();
@@ -246,19 +257,48 @@ window.addEventListener('scroll', () => {
 });
 
 function repelParticles() {
-  const positions = geometry.attributes.position.array;
-  for (let i = 0; i < positions.length; i += 3) {
-    let dx = (positions[i] - camera.position.x - mouseX * 50);
-    let dy = (positions[i + 1] - camera.position.y + mouseY * 50);
-    let distSq = dx * dx + dy * dy;
-    if (distSq < 500) {
-      const dist = Math.sqrt(distSq);
-      const force = (1 - dist / 75) * 0.15;
-      positions[i] += dx / dist * force;
-      positions[i + 1] += dy / dist * force;
+    const positions = geometry.attributes.position.array;
+    for (let i = 0; i < positions.length; i += 3) {
+      const origX = originalPositions[i];
+      const origY = originalPositions[i + 1];
+      const origZ = originalPositions[i + 2];
+  
+      let px = positions[i];
+      let py = positions[i + 1];
+      let pz = positions[i + 2];
+  
+      // Cursor repulsion in 2D screen space
+      let dx = px - camera.position.x - mouseX * 50;
+      let dy = py - camera.position.y + mouseY * 50;
+      let distSq = dx * dx + dy * dy;
+  
+      if (distSq < 2000) {
+        const dist = Math.sqrt(distSq);
+        const force = (1 - dist / 100) * 0.25;
+        positions[i] += (dx / dist) * force;
+        positions[i + 1] += (dy / dist) * force;
+      }
+  
+      // Elastic pullback to original position
+      positions[i] += (origX - px) * 0.01;
+      positions[i + 1] += (origY - py) * 0.01;
+      positions[i + 2] += (origZ - pz) * 0.01;
     }
-  }
-  geometry.attributes.position.needsUpdate = true;
+  
+    geometry.attributes.position.needsUpdate = true;
+//   const positions = geometry.attributes.position.array;
+//   for (let i = 0; i < positions.length; i += 3) {
+//     let dx = (positions[i] - camera.position.x - mouseX * 50);
+//     let dy = (positions[i + 1] - camera.position.y + mouseY * 50);
+//     let distSq = dx * dx + dy * dy;
+//     if (distSq < 500) {
+//       const dist = Math.sqrt(distSq);
+//       const force = (1 - dist / 75) * 0.15;
+//       positions[i] += dx / dist * force;
+//       positions[i + 1] += dy / dist * force;
+//     }
+//   }
+//   geometry.attributes.position.needsUpdate = true;
 }
 
 // Animate
