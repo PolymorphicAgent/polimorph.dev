@@ -233,11 +233,10 @@ let targetColor = new THREE.Color(0.1, 0.1, 0.1); // dark base tone
 let geometry;
 let particles;
 let material;
-let particlesCount;
+let particlesCount = 3500;
 
 function init() {
     // Create particles
-    particlesCount = 3500;
     const positions = new Float32Array(particlesCount * 3);
     for (let i = 0; i < particlesCount * 3; i += 3) {
         const x = (Math.random() - 0.5) * 150;
