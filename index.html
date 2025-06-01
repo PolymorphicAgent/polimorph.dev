@@ -224,7 +224,7 @@ for (let i = 0; i < particlesCount * 3; i += 3) {
   originalPositions.push(x, y, z);
 
   //particle brightness experimentation
-  particleBrightness[i / 3] = 0.0; // start dark
+  particleBrightness[i / 3] = 0.3 + Math.random() * 0.2; // random slight glow
 //   positions[i] = (Math.random() - 0.5) * 150;    // X
 //   positions[i + 1] = (Math.random() - 0.5) * 150; // Y
 //   positions[i + 2] = (Math.random() - 0.5) * 200; // Z — gives depth!
