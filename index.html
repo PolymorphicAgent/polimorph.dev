@@ -233,10 +233,11 @@ let targetColor = new THREE.Color(0.1, 0.1, 0.1); // dark base tone
 let geometry;
 let particles;
 let material;
+let particlesCount;
 
 function init() {
     // Create particles
-    const particlesCount = 3500;
+    particlesCount = 3500;
     const positions = new Float32Array(particlesCount * 3);
     for (let i = 0; i < particlesCount * 3; i += 3) {
         const x = (Math.random() - 0.5) * 150;
@@ -304,6 +305,14 @@ window.addEventListener('click', (e) => {
     radius: 0,
     maxRadius: 80,
   });
+});
+
+document.getElementById('particleCount').addEventListener('change', (e) => {
+    const newCount = parseInt(e.target.value, 10);
+    if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
+    particlesCount = newCount;
+    regenerateParticles();
+    }
 });
 
 function repelParticles() {
@@ -501,15 +510,6 @@ window.addEventListener('resize', () => {
 
     // On load
     document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
-
-    //update particle count
-    document.getElementById('particleCount').addEventListener('change', (e) => {
-      const newCount = parseInt(e.target.value, 10);
-      if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
-        particlesCount = newCount;
-        regenerateParticles();
-      }
-    });
   </script>
 </body>
 </html>
