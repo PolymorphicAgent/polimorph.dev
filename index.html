@@ -368,7 +368,7 @@ function animate() {
   // Gradually fade the material color back to base dark hue
   const baseColor = new THREE.Color();
   baseColor.setHSL(hue / 360, 0.9, 0.1); // dark version of the current hue
-  material.color.lerp(baseColor, 0.02); // 0.02 is fade speed
+  material.color.lerp(baseColor, 0.2); // 0.02 is fade speed
 
   renderer.render(scene, camera);
 }
