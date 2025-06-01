@@ -307,14 +307,6 @@ window.addEventListener('click', (e) => {
   });
 });
 
-document.getElementById('particleCount').addEventListener('change', (e) => {
-    const newCount = parseInt(e.target.value, 10);
-    if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
-    particlesCount = newCount;
-    regenerateParticles();
-    }
-});
-
 function repelParticles() {
     const positions = geometry.attributes.position.array;
     for (let i = 0; i < positions.length; i += 3) {
@@ -479,7 +471,7 @@ window.addEventListener('resize', () => {
     <button id="darkToggle" class="button" style="position: fixed; top: 1rem; right: 1rem; z-index: 10;" title="Toggle Theme">🌙</button>
     <div class="particle-control">
       <label for="particleCount">Particles:</label>
-      <input type="number" id="particleCount" min="100" max="10000" value="3500" />
+      <input type="number" id="particleCount" min="100" max="100000" value="3500" />
     </div>
 
   </footer>
@@ -510,6 +502,14 @@ window.addEventListener('resize', () => {
 
     // On load
     document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
+
+    document.getElementById('particleCount').addEventListener('change', (e) => {
+        const newCount = parseInt(e.target.value, 10);
+        if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
+            particlesCount = newCount;
+            regenerateParticles();
+        }
+    });
   </script>
 </body>
 </html>
