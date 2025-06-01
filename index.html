@@ -202,10 +202,12 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHei
 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+document.body.appendChild(renderer.domElement);e
 
-let originalPositions = [];
+let originalPositions = [];eeeeeeeeeee
 let ripples = [];
+let particleBrightness = new Float32Array(particlesCount);
+
 
 // Create particles
 const particlesCount = 3500;
@@ -220,6 +222,9 @@ for (let i = 0; i < particlesCount * 3; i += 3) {
   positions[i + 2] = z;
 
   originalPositions.push(x, y, z);
+
+  //particle brightness experimentation
+  particleBrightness[i / 3] = 0.0; // start dark
 //   positions[i] = (Math.random() - 0.5) * 150;    // X
 //   positions[i + 1] = (Math.random() - 0.5) * 150; // Y
 //   positions[i + 2] = (Math.random() - 0.5) * 200; // Z — gives depth!
@@ -235,6 +240,7 @@ const material = new THREE.PointsMaterial({
   map: particleTexture,
   size: 1.5,
   transparent: true,
+  vertexColors: true,
   opacity: 0.12,
   depthWrite: false,
   blending: THREE.AdditiveBlending
@@ -313,14 +319,37 @@ function repelParticles() {
           positions[i] += (dx / dist) * force;
           positions[i + 1] += (dy / dist) * force;
 
-          // Light flash effect: increase brightness briefly
-          const glowColor = new THREE.Color();
-          const lightness = 0.3 + Math.random() * 0.2; // random slight glow
-          glowColor.setHSL(hue / 360, 0.9, lightness);
-          material.color.lerp(glowColor, 0.2); // blend toward brighter
+           // 💡 Distance-based color tint
+           const distanceRatio = dist / ripple.maxRadius; // 0 = center, 1 = edge
+           const tintHue = (hue + distanceRatio * 60) % 360; // shift hue by distance
+           const brightnessBoost = 1 - distanceRatio;
+         
+           // Set this particle’s brightness higher (capped to 1)
+           const index = i / 3;
+           particleBrightness[index] = Math.min(1, particleBrightness[index] + brightnessBoost * 0.8);
+
+        //   // Light flash effect: increase brightness briefly
+        //   const glowColor = new THREE.Color();
+        //   const lightness = 0.3 + Math.random() * 0.2; // random slight glow
+        //   glowColor.setHSL(hue / 360, 0.9, lightness);
+        //   material.color.lerp(glowColor, 0.2); // blend toward brighter
         }
       }
    
+      const colors = geometry.attributes.color.array;
+      for (let i = 0; i < particlesCount; i++) {
+        // Fade brightness
+        particleBrightness[i] *= 0.95;
+      
+        const b = particleBrightness[i];
+      
+        const color = new THREE.Color();
+        color.setHSL((hue / 360), 0.7, 0.15 + b * 0.5); // base + brightness
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+      }
+
       // Remove ripple after it exceeds max
       if (ripple.radius > ripple.maxRadius) {
         ripples.splice(r, 1);
