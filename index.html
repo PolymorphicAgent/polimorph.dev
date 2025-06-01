@@ -301,7 +301,7 @@ function repelParticles() {
     // Wave propagation from clicks
     for (let r = ripples.length - 1; r >= 0; r--) {
       const ripple = ripples[r];
-      ripple.radius += 1.5;
+      ripple.radius += 0.9;
    
       for (let i = 0; i < positions.length; i += 3) {
         const dx = positions[i] - ripple.x;
@@ -312,6 +312,12 @@ function repelParticles() {
           const force = 0.4 * (1 - dist / ripple.maxRadius);
           positions[i] += (dx / dist) * force;
           positions[i + 1] += (dy / dist) * force;
+
+          // Light flash effect: increase brightness briefly
+          const glowColor = new THREE.Color();
+          const lightness = 0.3 + Math.random() * 0.2; // random slight glow
+          glowColor.setHSL(hue / 360, 0.9, lightness);
+          material.color.lerp(glowColor, 0.2); // blend toward brighter
         }
       }
    
