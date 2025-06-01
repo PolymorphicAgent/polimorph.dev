@@ -144,7 +144,6 @@
     footer .particle-control {
       display: flex;
       align-items: center;
-      flex-direction: column;
       gap: 0.75rem;
       color: var(--text-color);
       background: var(--footer-bg);
@@ -472,6 +471,7 @@ window.addEventListener('resize', () => {
       </a>
     </div>
     <button id="darkToggle" class="button" style="position: fixed; top: 1rem; right: 1rem; z-index: 10;" title="Toggle Theme">🌙</button>
+    <p></p>
     <div class="particle-control">
       <label for="particleCount">Particles:</label>
       <input type="number" id="particleCount" value="3500" />
