@@ -233,7 +233,7 @@ let targetColor = new THREE.Color(0.1, 0.1, 0.1); // dark base tone
 let geometry;
 let particles;
 let material;
-let particlesCount = 3500;
+let particlesCount = parseInt(localStorage.getItem('particlesCount')) || 3500;
 
 function init() {
     // Create particles
@@ -502,9 +502,12 @@ window.addEventListener('resize', () => {
     // On load
     document.documentElement.dataset.theme = localStorage.getItem('theme') || 'dark';
 
+    // Particle stuff
+    document.getElementById('particleCount').value = particlesCount;
     document.getElementById('particleCount').addEventListener('change', (e) => {
         const newCount = parseInt(e.target.value, 10);
         if (!isNaN(newCount)) {
+            localStorage.setItem('particlesCount', newCount);
             particlesCount = newCount;
             regenerateParticles();
         }
