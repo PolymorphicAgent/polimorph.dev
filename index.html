@@ -470,7 +470,7 @@ window.addEventListener('resize', () => {
     <button id="darkToggle" class="button" style="position: fixed; top: 1rem; right: 1rem; z-index: 10;" title="Toggle Theme">🌙</button>
     <div class="particle-control">
       <label for="particleCount">Particles:</label>
-      <input type="number" id="particleCount" min="100" max="100000" value="3500" />
+      <input type="number" id="particleCount" value="3500" />
     </div>
 
   </footer>
@@ -504,7 +504,7 @@ window.addEventListener('resize', () => {
 
     document.getElementById('particleCount').addEventListener('change', (e) => {
         const newCount = parseInt(e.target.value, 10);
-        if (!isNaN(newCount) && newCount >= 100 && newCount <= 10000) {
+        if (!isNaN(newCount)) {
             particlesCount = newCount;
             regenerateParticles();
         }
