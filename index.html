@@ -369,19 +369,6 @@ function repelParticles() {
     }
 
     geometry.attributes.position.needsUpdate = true;
-//   const positions = geometry.attributes.position.array;
-//   for (let i = 0; i < positions.length; i += 3) {
-//     let dx = (positions[i] - camera.position.x - mouseX * 50);
-//     let dy = (positions[i + 1] - camera.position.y + mouseY * 50);
-//     let distSq = dx * dx + dy * dy;
-//     if (distSq < 500) {
-//       const dist = Math.sqrt(distSq);
-//       const force = (1 - dist / 75) * 0.15;
-//       positions[i] += dx / dist * force;
-//       positions[i + 1] += dy / dist * force;
-//     }
-//   }
-//   geometry.attributes.position.needsUpdate = true;
 }
 
 // Animate
@@ -404,10 +391,6 @@ function animate() {
   repelParticles();
 
   // Gradually fade the material color back to base dark hue
-//   const baseColor = new THREE.Color();
-//   baseColor.setHSL(hue / 360, 0.9, 0.1); // dark version of the current hue
-//   material.color.lerp(baseColor, 0.02); // 0.02 is fade speed
-  // Smooth fade back to dark
   targetColor.setHSL(hue / 360, 0.9, 0.1); // dark but tinted to hue
   material.color.lerp(targetColor, 0.05); // adjust 0.05 for slower or faster fade
 
@@ -433,16 +416,23 @@ window.addEventListener('resize', () => {
 
   <section>
     <div class="section-card animate-on-scroll">
-      <p>Edit your plain text documents, right from your browser.</p>
-      <p>This text editor is still under development, you have been warned. Light mode is disgusting.</p>
-      <a class="button" href="https://portable-editor.polimorph.dev" target="_blank">Launch the Editor</a>
+      <p>Edit your plain text documents, right from your browser!</p>
+      <p>This text editor is still under development, and is stuck in the disgusting light mode.</p>
+      <a class="button" href="https://portable-editor.polimorph.dev" target="_blank">Check It Out!</a>
     </div>
   </section>
 
   <section>
     <div class="section-card animate-on-scroll">
-      <p>Discover more tools and open-source projects on my GitHub.</p>
+      <p>Discover my open-source projects on my GitHub!</p>
       <a class="button" href="https://github.com/PolymorphicAgent" target="_blank">View GitHub Profile</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-card animate-on-scroll">
+      <p>Discover my 3d printing/microcontroller projects on Thingiverse!</p>
+      <a class="button" href="https://www.thingiverse.com/im_a_coder_ig/favorites" target="_blank">View Thingiverse Profile</a>
     </div>
   </section>
 
