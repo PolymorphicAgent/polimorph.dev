@@ -51,7 +51,7 @@
     .typing-title {
       font-family: 'Share Tech Mono', monospace;
       font-size: 3.1rem;
-      color: #ffffff;
+      color: var(--text-color);
       position: relative;
       white-space: nowrap;
       overflow: hidden;
@@ -108,6 +108,145 @@
       font-family: 'Fira Code', monospace;
       color: var(--text-color);
       margin: 1rem 0 1.75rem 0;
+    }
+
+    .glitch-text {
+      animation: glitch-t 1s infinite;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      color: white;
+      z-index: -1;
+    }
+    
+    .glitch-text::before {
+      color: red;
+      animation: glitchTop 1s infinite;
+    }
+    
+    .glitch-text::after {
+      color: blue;
+      animation: glitchBottom 1s infinite;
+    }
+
+    @keyframes glitch-t {
+      0% {
+        transform: none;
+      }
+      20% {
+        transform: skew(-0.5deg, -0.5deg);
+      }
+      40% {
+        transform: skew(0.5deg, 0.5deg);
+      }
+      60% {
+        transform: skew(-0.5deg, -0.5deg);
+      }
+      80% {
+        transform: skew(0.5deg, 0.5deg);
+      }
+      100% {
+        transform: none;
+      }
+    }
+    
+    @keyframes glitchTop {
+      0% {
+        clip: rect(0, 9999px, 0, 0);
+      }
+      10% {
+        clip: rect(0, 9999px, 5px, 0);
+        transform: translate(-2px, -2px);
+      }
+      20% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      30% {
+        clip: rect(0, 9999px, 5px, 0);
+        transform: translate(2px, -2px);
+      }
+      40% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      50% {
+        clip: rect(0, 9999px, 5px, 0);
+        transform: translate(-2px, 2px);
+      }
+      60% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      70% {
+        clip: rect(0, 9999px, 5px, 0);
+        transform: translate(2px, 2px);
+      }
+      80% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      90% {
+        clip: rect(0, 9999px, 5px, 0);
+        transform: translate(-2px, -2px);
+      }
+      100% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+    }
+    
+    @keyframes glitchBottom {
+      0% {
+        clip: rect(0, 9999px, 0, 0);
+      }
+      10% {
+        clip: rect(5px, 9999px, 10px, 0);
+        transform: translate(2px, 2px);
+      }
+      20% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      30% {
+        clip: rect(5px, 9999px, 10px, 0);
+        transform: translate(-2px, 2px);
+      }
+      40% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      50% {
+        clip: rect(5px, 9999px, 10px, 0);
+        transform: translate(2px, -2px);
+      }
+      60% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      70% {
+        clip: rect(5px, 9999px, 10px, 0);
+        transform: translate(-2px, -2px);
+      }
+      80% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
+      90% {
+        clip: rect(5px, 9999px, 10px, 0);
+        transform: translate(2px, 2px);
+      }
+      100% {
+        clip: rect(0, 9999px, 0, 0);
+        transform: none;
+      }
     }
 
     .button {
@@ -428,7 +567,7 @@ window.addEventListener('resize', () => {
 
   <section>
     <div class="section-card animate-on-scroll">
-      <div class="gltich" data-text="Discover my open-source projects on GitHub!"><p>Discover my open-source projects on GitHub!</p></div>
+      <p class="glitch-t" data-text="Discover my open-source projects on GitHub!">Discover my open-source projects on GitHub!</p>
       <div style="height: 25px;"></div>
       <a class="button" href="https://github.com/PolymorphicAgent" target="_blank">View GitHub Profile</a>
       <div style="height: 25px;"></div>
